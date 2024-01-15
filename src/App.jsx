@@ -1,3 +1,27 @@
+/* eslint-disable react/prop-types */
+import { useState } from 'react'
+
+function FilterableProductTable({ products }) {
+  const [filterText, setFilterText] = useState('')
+  const [inStockOnly, setInStockOnly] = useState(false)
+
+  return (
+    <div>
+      <SearchBar
+        filterText={filterText}
+        inStockOnly={inStockOnly}
+        onFilterTextChange={setFilterText}
+        onInStockOnlyChange={setInStockOnly}
+      />
+      <ProductTable
+        products={products}
+        filterText={filterText}
+        inStockOnly={inStockOnly}
+      />
+    </div>
+  )
+}
+
 function ProductCategoryRow({ category }) {
   return (
     <tr>
@@ -54,24 +78,20 @@ function ProductTable({ products }) {
   )
 }
 
-function SearchBar() {
+function SearchBar({ filterText, onFilterTextChange }) {
   return (
     <form>
-      <input type='text' placeholder='Search...' />
+      <input
+        type='text'
+        value={filterText}
+        placeholder='Search...'
+        onChange={(e) => onFilterTextChange(e.target.value)}
+      />
       <label>
         <input type='checkbox' />
         Only show products in stock
       </label>
     </form>
-  )
-}
-
-function FilterableProductTable({ products }) {
-  return (
-    <div>
-      <SearchBar />
-      <ProductTable products={products} />
-    </div>
   )
 }
 
